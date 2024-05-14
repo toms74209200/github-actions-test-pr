@@ -27,7 +27,7 @@ jobs:
         run: |
           npm test || echo "status=$?" >> $GITHUB_OUTPUT
       - name: Create comment file
-        if: ${{ steps.test.outputs.status != '0' && inputs.enable_pr_comment == 'true' }}
+        if: ${{ steps.test.outputs.status != 0 && inputs.enable_pr_comment == true }}
         run: |
           cat  << EOF > comment.md
           ## Test Failed
@@ -35,7 +35,7 @@ jobs:
           https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
           EOF
       - name: Create PR comment
-        if: ${{ steps.test.outputs.status != '0' && inputs.enable_pr_comment == 'true' }}
+        if: ${{ steps.test.outputs.status != 0 && inputs.enable_pr_comment == true }}
         run: |
           gh pr comment ${{ github.event.number }} --body-file comment.md
         env:
